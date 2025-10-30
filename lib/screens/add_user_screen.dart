@@ -132,7 +132,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                // Header Card - Giống Dashboard
+                // Header Card 
                 Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   padding: const EdgeInsets.all(20),

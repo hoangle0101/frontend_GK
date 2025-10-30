@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+
 
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               labelText: 'Tên đăng nhập',
                               prefixIcon: const Icon(Icons.person_outline),
                               filled: true,
-                              fillColor: isDark ? Colors.grey.shade800 : Colors.grey.shade50,
+                              fillColor:  Colors.grey.shade50,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide.none,
@@ -168,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               labelText: 'Mật khẩu',
                               prefixIcon: const Icon(Icons.lock_outline),
                               filled: true,
-                              fillColor: isDark ? Colors.grey.shade800 : Colors.grey.shade50,
+                              fillColor: Colors.grey.shade50,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide.none,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
-import '../providers/theme_provider.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -11,7 +9,8 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
   String _username = '';
   String _email = '';
   late AnimationController _animationController;
@@ -22,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   void initState() {
     super.initState();
     _loadUserInfo();
-    
+
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
@@ -35,7 +34,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.3),
       end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
+    ).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+    );
 
     _animationController.forward();
   }
@@ -84,7 +85,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red.shade600,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
             child: const Text('Đăng xuất'),
           ),
@@ -107,18 +109,15 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final isDark = themeProvider.isDarkMode;
-
     return Scaffold(
-      backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade50,
+      backgroundColor: Colors.grey.shade50,
       body: FadeTransition(
         opacity: _fadeAnimation,
         child: SlideTransition(
           position: _slideAnimation,
           child: CustomScrollView(
             slivers: [
-              // App Bar với gradient
+              // App Bar với gradient xanh
               SliverAppBar(
                 expandedHeight: 280,
                 floating: false,
@@ -143,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const SizedBox(height: 40),
-                          // Avatar với animation
+                          // Avatar
                           Hero(
                             tag: 'profile-avatar',
                             child: Container(
@@ -181,29 +180,29 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             ),
                           ),
                           const SizedBox(height: 16),
-                          // Username
                           Text(
                             _username,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
-                              letterSpacing: 0.5,
                             ),
                           ),
                           const SizedBox(height: 8),
-                          // Badge
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 6),
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.white.withOpacity(0.3)),
+                              border: Border.all(
+                                  color: Colors.white.withOpacity(0.3)),
                             ),
                             child: const Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.verified, color: Colors.white, size: 16),
+                                Icon(Icons.verified,
+                                    color: Colors.white, size: 16),
                                 SizedBox(width: 6),
                                 Text(
                                   'Quản trị viên',
@@ -221,36 +220,22 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     ),
                   ),
                 ),
-                actions: [
-                  IconButton(
-                    icon: Icon(
-                      themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => themeProvider.toggleTheme(),
-                    tooltip: 'Đổi theme',
-                  ),
-                ],
               ),
 
-              // Content
+              // Nội dung chính
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Stats Cards
-                
                       const SizedBox(height: 24),
-
-                      // Thông tin cá nhân
-                      Text(
+                      const Text(
                         'Thông tin cá nhân',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : Colors.grey.shade800,
+                          color: Colors.black87,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -260,7 +245,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         title: 'Tên đăng nhập',
                         subtitle: _username,
                         color: Colors.blue,
-                        isDark: isDark,
                       ),
                       const SizedBox(height: 12),
                       _buildInfoCard(
@@ -268,7 +252,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         title: 'Email',
                         subtitle: _email,
                         color: Colors.purple,
-                        isDark: isDark,
                       ),
                       const SizedBox(height: 12),
                       _buildInfoCard(
@@ -276,13 +259,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         title: 'Vai trò',
                         subtitle: 'Quản trị viên cấp cao',
                         color: Colors.orange,
-                        isDark: isDark,
                       ),
                       const SizedBox(height: 24),
 
-                
-
-                      // Logout Button
+                      // Nút đăng xuất
                       Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -320,14 +300,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         ),
                       ),
                       const SizedBox(height: 16),
-
-                      // Version info
                       Center(
                         child: Text(
                           'Version 1.0.0 • © 2025 Admin System',
                           style: TextStyle(
                             fontSize: 12,
-                            color: isDark ? Colors.grey.shade600 : Colors.grey.shade500,
+                            color: Colors.grey.shade500,
                           ),
                         ),
                       ),
@@ -343,18 +321,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     );
   }
 
- 
   Widget _buildInfoCard({
     required IconData icon,
     required String title,
     required String subtitle,
     required Color color,
-    required bool isDark,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark ? Colors.grey.shade800 : Colors.white,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -383,17 +359,17 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   title,
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                    color: Colors.grey.shade600,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: isDark ? Colors.white : Colors.grey.shade800,
+                    color: Colors.black87,
                   ),
                 ),
               ],
@@ -403,5 +379,4 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       ),
     );
   }
-
 }

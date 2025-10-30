@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../models/user_model.dart';
@@ -30,7 +29,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
     super.initState();
     _usernameController = TextEditingController(text: widget.user.username);
     _emailController = TextEditingController(text: widget.user.email);
-    _passwordController = TextEditingController();
+
+    _passwordController = TextEditingController(text: widget.user.password);
+
     _currentImageUrl = widget.user.image.isNotEmpty
         ? ApiService.getImageUrl(widget.user.image)
         : null;
@@ -65,7 +66,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
       id: widget.user.id,
       username: _usernameController.text.trim(),
       email: _emailController.text.trim(),
-      password: _passwordController.text.isEmpty ? '' : _passwordController.text,
+      password: _passwordController.text.isEmpty
+          ? ''
+          : _passwordController.text,
       imageBytes: _imageBytes,
       imageName: _imageName,
     );
@@ -85,7 +88,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
             ),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
         );
         Navigator.pop(context, true);
@@ -101,7 +106,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
             ),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
         );
       }
@@ -112,7 +119,12 @@ class _EditUserScreenState extends State<EditUserScreen> {
     if (_imageBytes != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(70),
-        child: Image.memory(_imageBytes!, fit: BoxFit.cover, width: 140, height: 140),
+        child: Image.memory(
+          _imageBytes!,
+          fit: BoxFit.cover,
+          width: 140,
+          height: 140,
+        ),
       );
     } else if (_currentImageUrl != null && _currentImageUrl!.isNotEmpty) {
       return ClipRRect(
@@ -122,7 +134,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
           fit: BoxFit.cover,
           width: 140,
           height: 140,
-          errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 60, color: Colors.grey),
+          errorBuilder: (_, __, ___) =>
+              const Icon(Icons.broken_image, size: 60, color: Colors.grey),
         ),
       );
     } else {
@@ -188,7 +201,11 @@ class _EditUserScreenState extends State<EditUserScreen> {
                           color: Colors.white.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(Icons.person, color: Colors.white, size: 32),
+                        child: const Icon(
+                          Icons.person,
+                          color: Colors.white,
+                          size: 32,
+                        ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -246,7 +263,10 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                 height: 140,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.blue.shade200, width: 3),
+                                  border: Border.all(
+                                    color: Colors.blue.shade200,
+                                    width: 3,
+                                  ),
                                 ),
                                 clipBehavior: Clip.antiAlias,
                                 child: _buildImageWidget(),
@@ -283,11 +303,13 @@ class _EditUserScreenState extends State<EditUserScreen> {
                         const SizedBox(height: 12),
                         Center(
                           child: TextButton.icon(
-                            onPressed: (_imageBytes != null || _currentImageUrl != null)
+                            onPressed:
+                                (_imageBytes != null ||
+                                    _currentImageUrl != null)
                                 ? () => setState(() {
-                                      _imageBytes = null;
-                                      _currentImageUrl = null;
-                                    })
+                                    _imageBytes = null;
+                                    _currentImageUrl = null;
+                                  })
                                 : null,
                             icon: const Icon(Icons.delete_outline, size: 18),
                             label: const Text('Xóa ảnh'),
@@ -305,12 +327,17 @@ class _EditUserScreenState extends State<EditUserScreen> {
                             labelText: 'Tên đăng nhập *',
                             prefixIcon: const Icon(Icons.person_outline),
                             filled: true,
-                            fillColor: isDark ? Colors.grey.shade800 : Colors.grey.shade50,
+                            fillColor: isDark
+                                ? Colors.grey.shade800
+                                : Colors.grey.shade50,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide.none,
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 16,
+                            ),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -332,18 +359,25 @@ class _EditUserScreenState extends State<EditUserScreen> {
                             labelText: 'Email *',
                             prefixIcon: const Icon(Icons.email_outlined),
                             filled: true,
-                            fillColor: isDark ? Colors.grey.shade800 : Colors.grey.shade50,
+                            fillColor: isDark
+                                ? Colors.grey.shade800
+                                : Colors.grey.shade50,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide.none,
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 16,
+                            ),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Vui lòng nhập email';
                             }
-                            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                            if (!RegExp(
+                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                            ).hasMatch(value)) {
                               return 'Email không hợp lệ';
                             }
                             return null;
@@ -354,33 +388,46 @@ class _EditUserScreenState extends State<EditUserScreen> {
                         // Password
                         TextFormField(
                           controller: _passwordController,
-                          obscureText: _obscurePassword,
+                          obscureText:
+                              _obscurePassword, // <-- điều khiển ẩn/hiện
                           decoration: InputDecoration(
-                            labelText: 'Mật khẩu mới (để trống nếu không đổi)',
+                            labelText: 'Mật khẩu',
                             prefixIcon: const Icon(Icons.lock_outline),
                             filled: true,
-                            fillColor: isDark ? Colors.grey.shade800 : Colors.grey.shade50,
+                            fillColor: isDark
+                                ? Colors.grey.shade800
+                                : Colors.grey.shade50,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide.none,
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 16,
+                            ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                               ),
                               onPressed: () {
-                                setState(() => _obscurePassword = !_obscurePassword);
+                                setState(
+                                  () => _obscurePassword = !_obscurePassword,
+                                );
                               },
                             ),
                           ),
                           validator: (value) {
-                            if (value != null && value.isNotEmpty && value.length < 6) {
+                            if (value != null &&
+                                value.isNotEmpty &&
+                                value.length < 6) {
                               return 'Mật khẩu phải có ít nhất 6 ký tự';
                             }
                             return null;
                           },
                         ),
+
                         const SizedBox(height: 32),
                       ],
                     ),

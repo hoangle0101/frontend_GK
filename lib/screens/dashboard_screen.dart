@@ -1,11 +1,9 @@
 
-import 'package:admin_management/providers/theme_provider.dart';
 import 'package:admin_management/screens/user_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
 import '../services/api_service.dart';
-import 'package:provider/provider.dart';
 import 'login_screen.dart';
 import 'add_user_screen.dart';
 import 'edit_user_screen.dart';
@@ -26,7 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _page = 1;
   final int _limit = 5;
   int _total = 0;
-  String _sortBy = 'username';
+  String _sortBy = 'email';
   String _sortOrder = 'asc';
   Set<String> _selectedUserIds = {};
   bool _isSelectionMode = false;
@@ -262,7 +260,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final pages = (_total / _limit).ceil();
-    final themeProvider = Provider.of<ThemeProvider>(context);
+
 
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
@@ -301,11 +299,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   onPressed: _loadUsers,
                   tooltip: 'Làm mới',
                 ),
-                IconButton(
-                  icon: Icon(themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode),
-                  onPressed: () => themeProvider.toggleTheme(),
-                  tooltip: 'Đổi theme',
-                ),
+             
                 PopupMenuButton<String>(
                   icon: const Icon(Icons.account_circle),
                   offset: const Offset(0, 50),
